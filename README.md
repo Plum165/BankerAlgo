@@ -1,6 +1,6 @@
 # Program that is more of the blueprint for a skeleton of the Banker's Algorithm  
-# Moegamat Samsodien  
-# 14/05/2025
+Moegamat Samsodien  
+14/05/2025
 
 # Description:
 This program implements the Banker's Algorithm — a classic deadlock avoidance strategy in operating systems. 
