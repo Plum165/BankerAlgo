@@ -1,7 +1,8 @@
 # Program that is more of the blueprint for a skeleton of the Banker's Algorithm  
 Moegamat Samsodien  
 14/05/2025
-
+# Note
+Educational Purposes and that there could be a different order in execution as Banker Algorithm just looks for safe state so yours can be different.
 # Description:
 This program implements the Banker's Algorithm — a classic deadlock avoidance strategy in operating systems. 
 The algorithm checks whether the system is in a safe state by simulating resource allocation for multiple processes. 
