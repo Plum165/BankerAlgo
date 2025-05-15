@@ -11,3 +11,15 @@ It ensures that there exists a safe sequence in which all processes can complete
 I implemented this to help me better understand and practice how the Banker's Algorithm works,
 especially for manually calculating safe states and sequences — a common requirement in exams and tests.
 It helps reinforce the logic behind comparing Need, Allocation, and Available matrices.
+
+# Format to use files:
+2         <-- numProcesses
+3         <-- numResources
+Available
+3 3 2     <-- Available resources
+Allocation
+0 1 0     <-- One row per process
+2 0 0
+Max
+7 5 3
+3 2 2
