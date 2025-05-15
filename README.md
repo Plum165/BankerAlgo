@@ -13,15 +13,16 @@ especially for manually calculating safe states and sequences — a common requi
 It helps reinforce the logic behind comparing Need, Allocation, and Available matrices.
 
 # Format to use files:
-2         <-- numProcesses\n
-3         <-- numResources\n
-Available\n
-3 3 2     <-- Available resources\n
-Allocation\n
-0 1 0     <-- One row per process\n
-2 0 0\n
-Max\n
-7 5 3\n
-3 2 2\n
-
+```
+2         <-- numProcesses
+3         <-- numResources
+Available
+3 3 2     <-- Available resources
+Allocation
+0 1 0     <-- One row per process
+2 0 0
+Max
+7 5 3
+3 2 2
+```
 
