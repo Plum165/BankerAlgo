@@ -1,10 +1,23 @@
 import java.util.*;
-
+import java.util.Scanner;
+//Moegamat Samsodien
+//20 April 2025
+/**
+ * BankersAlgorithm class implements the Banker's Algorithm
+ * to check for safe states in resource allocation among processes.
+ */
 public class BankersAlgorithm {
-    public BankersAlgorithm(int processes, int resources)
-    {}
 
-    public static int[][] needCalculate(int[][] allo, int[][] maxN) {
+    // Constructor - no special initialization needed
+    public BankersAlgorithm() {}
+
+    /**
+     * Calculate the 'need' matrix: maxNeed - allocation
+     * parameter allo current allocation matrix
+     * parameter maxN maximum demand matrix
+     * return need matrix showing remaining resources each process needs
+     */
+    public int[][] needCalculate(int[][] allo, int[][] maxN) {
         int[][] need = new int[allo.length][allo[0].length];
         for (int i = 0; i < allo.length; i++) {
             for (int j = 0; j < allo[i].length; j++) {
@@ -14,69 +27,110 @@ public class BankersAlgorithm {
         return need;
     }
 
-    public static int[] workCalculate(int[][] allo, int[] available) {
+    /**
+     * Calculate the 'work' vector = available - sum of allocations
+     * This represents resources currently available after accounting for allocations.
+     * return work vector representing free resources
+     */
+    public int[] workCalculate(int[][] allo, int[] available) {
         int[] work = Arrays.copyOf(available, available.length);
+        
+        // Subtract all allocated resources from available
         for (int[] process : allo) {
             for (int j = 0; j < process.length; j++) {
                 work[j] -= process[j];
             }
         }
+        
+        // Display resource types (A, B, C...)
+        System.out.println("The work/available resources:");
+        for (int a = 65; a < (work.length + 65); a++) {
+            char ch = (char) a;
+            System.out.print(ch + " ");
+        }
+        System.out.println();
+        
+        printArray(work);  // Show current work vector
+        
         return work;
     }
 
-    public static boolean workChecker(int[] work) {
+    /**
+     * Check if any resource count in work is negative,
+     * indicating overallocation or invalid state.
+     * return true if any resource is negative, else false
+     */
+    public boolean workChecker(int[] work) {
         for (int value : work) {
             if (value < 0) {
-                return true;
+                return true;  // Negative resource means impossible state
             }
         }
         return false;
     }
-    public static void printArray(int[] arr)
- {
-       
-            for (int value : arr) {
-                System.out.print(value + " ");
-            }
-            System.out.println();
-        
+
+    // Utility to print a 1D array of integers on one line
+    public void printArray(int[] arr) {
+        for (int value : arr) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
     }
-    public static void printNeed(int[][] need) {
-    System.out.println("The need calculated:");
-     int i = 0;
-     int resources = 3;
-     System.out.print("\t\t");
-     for (int a = 65; a < (resources + 65); a++ )
-     {
-     char ch = (char) a;
-     System.out.print( ch + " ");}
-     System.out.println();
+
+    /**
+     * Print the need matrix with process labels and resource headings.
+     */
+    public void printNeed(int[][] need) {
+        System.out.println("The need calculated:");
+        int i = 0;
+        System.out.print("\t\t");
+        for (int a = 65; a < (need[0].length + 65); a++) {
+            char ch = (char) a;
+            System.out.print(ch + " ");
+        }
+        System.out.println();
+        
+        // Print each process and its resource needs
         for (int[] row : need) {
-        System.out.print("P" + i + " |\t");
+            System.out.print("P" + i + " |\t");
             for (int value : row) {
                 System.out.print(value + " ");
             }
             System.out.println();
             i++;
         }
+        System.out.println("_______________________________");
     }
 
-    public static String state(int[][] allocation, int[] available, int[][] maximum) {
+    /**
+     * Main method to check system state safety using Banker's Algorithm.
+     * Prints progress and returns whether system is in a safe or unsafe state.
+     *  allocation current allocation matrix
+     *  available current available resources vector
+     *  maximum maximum demand matrix
+     * returns "Safe state", "Unsafe state", or "Impossible state"
+     */
+    public String state(int[][] allocation, int[] available, int[][] maximum) {
         List<Integer> sequence = new ArrayList<>();
+        
+        // Calculate initial work vector (available - allocations)
         int[] work = workCalculate(allocation, available);
 
+        // If work has negative values, system is impossible state
         if (workChecker(work)) {
             return "Impossible state";
         }
 
+        // Calculate need matrix
         int[][] need = needCalculate(allocation, maximum);
         printNeed(need);
 
-        boolean[] finished = new boolean[allocation.length];
+        boolean[] finished = new boolean[allocation.length];  // Track finished processes
 
         while (true) {
-            boolean flag = true;
+            boolean flag = true;  // Flag to detect if no progress this iteration
 
+            // Try to find a process that can finish with current work resources
             for (int i = 0; i < need.length; i++) {
                 if (finished[i]) continue;
 
@@ -84,70 +138,51 @@ public class BankersAlgorithm {
                 for (int j = 0; j < need[i].length; j++) {
                     if (need[i][j] > work[j]) {
                         canRun = false;
-                        break;
+                        break;  // Not enough resources for this process
                     }
                 }
 
                 if (canRun) {
-                    sequence.add(i);
+                    sequence.add(i);  // Add to safe sequence
                     System.out.println("Current Work + Allocation " + i + ":");
-                   int resources = 3;
-                   for (int a = 65; a < (resources + 65); a++ )
-                     {
-                  char ch = (char) a;
-                       System.out.print( ch + " ");}
-                     System.out.println();
+                    
+                    // Print resource headings again
+                    for (int a = 65; a < (work.length + 65); a++) {
+                        char ch = (char) a;
+                        System.out.print(ch + " ");
+                    }
+                    System.out.println();
+
                     printArray(work);
                     System.out.println("+");
                     printArray(allocation[i]);
+
+                    // Release resources after process finishes
                     for (int j = 0; j < work.length; j++) {
                         work[j] += allocation[i][j];
                     }
-                    for (int b = 0; b < resources; b++){
-                    System.out.print("__");}
-                    System.out.println();
+                    System.out.println("________________");
                     printArray(work);
-                    finished[i] = true;
-                    flag = false;
+
+                    finished[i] = true;  // Mark process finished
+                    flag = false;  // Made progress this loop
                 }
             }
 
-            if (flag) break;
+            if (flag) break;  // No progress = stop looping
         }
+        
+        System.out.println("_______________________________");
 
+        // Check if all processes finished
         for (boolean f : finished) {
             if (!f) {
-            System.out.println("Sequence made it to: " + sequence);
-             return "Unsafe state";}
+                System.out.println("Sequence made it to: " + sequence);
+                return "Unsafe state";
+            }
         }
 
         System.out.println("Safe sequence: " + sequence);
         return "Safe state";
-    }
-
-    public static void main(String[] args) {
-        int numProcess = 4;
-        int numResources = 3;//maximum 26 char[90 - 65]
-        int[][] allocation = {
-            {2, 0, 1}, // P0
-            {1, 0, 1}, // P1
-            {1, 1, 0}, // P2
-            {0, 1, 0}, // P3
-    
-        };
-
-        int[][] maximum = {
-            {2, 1, 1},
-            {3, 0, 2},
-            {5, 2, 1},
-            {1, 1, 1},
-  
-        };
-
-        int[] available = {5, 2, 3};
-
-        System.out.println("Banker's Algorithm Safety Check:");
-        String result = state(allocation, available, maximum);
-        System.out.println("Result: " + result);
     }
 }
