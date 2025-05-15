@@ -12,7 +12,29 @@ I implemented this to help me better understand and practice how the Banker's Al
 especially for manually calculating safe states and sequences — a common requirement in exams and tests.
 It helps reinforce the logic behind comparing Need, Allocation, and Available matrices.
 
-# Format to use files:
+# 🏦 Banker's Algorithm Java Program
+
+This Java program implements the **Banker's Algorithm**, a deadlock avoidance algorithm used in operating systems. It determines if a system is in a safe state given a set of resource allocations and maximum demands.
+
+---
+
+## 🔧 Requirements
+
+- Java (JDK 11 or higher)
+- Terminal or command prompt
+- An input file (`.txt` or `.csv`) formatted correctly
+
+---
+
+## ▶️ How to Run
+
+1. **Compile the program**:
+   javac Banker_Algorithm_App.java BankersAlgorithm.java
+2. **Run the program via bash or from APP**
+   java Banker_Algorithm_App
+
+
+# Format for text files to follow:
 ```
 2         <-- numProcesses
 3         <-- numResources
