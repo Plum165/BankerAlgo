@@ -23,3 +23,15 @@ Allocation
 Max
 7 5 3
 3 2 2
+
+2
+3
+Available
+3 3 2
+Allocation
+0 1 0
+2 0 0
+Max
+7 5 3
+3 2 2
+
